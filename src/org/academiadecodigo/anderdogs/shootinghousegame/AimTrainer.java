@@ -8,10 +8,16 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class AimTrainer extends Games implements MouseHandler {
 
+    private Mouse mouse;
+    private double mouseX; //Variável que irá guardar o X do rato
+    private double mouseY; //Variável que irá guardar o Y do rato
+
+
+    /*
     //Properties
     private Picture aimTrainerPicture;
-    private double mouseX;//Variável que irá guardar o X do rato
-    private double mouseY;//Variável que irá guardar o Y do rato
+    private double mouseX; //Variável que irá guardar o X do rato
+    private double mouseY; //Variável que irá guardar o Y do rato
     private Mouse mouse;
 
     //Constructor
@@ -28,6 +34,11 @@ public class AimTrainer extends Games implements MouseHandler {
         Thread.sleep(1000);
         aimTrainerPicture.load("resources/Game_Aim_trainer_rules.png");
         initMouse();
+    }*/
+
+    public void initMouse(){
+        mouse = new Mouse(this); //Momento de instanciação DESTE mouse (o que está a ser utilizado pelo utilizador)
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED); //Momento em que damos atenção a um evento do mouse (Mouse_Clicked)
     }
 
     @Override
@@ -35,19 +46,11 @@ public class AimTrainer extends Games implements MouseHandler {
 
     }
 
-    public void initMouse(){
-        mouse = new Mouse(this);//Momento de instanciação DESTE mouse (o que está a ser utilizado pelo utilizador)
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);//Momento em que damos atenção a um evento do mouse (Mouse_Clicked)
-    }
-
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println("X: " + mouseX + "Y: " + mouseY);//APAGAR!! Informa o X e o Y quando existe um click no mouse
         mouseX = mouseEvent.getX();//Ver explicação nas properties
         mouseY = mouseEvent.getY();//Ver explicação nas properties
-        System.out.println("X: " + mouseX + "Y: " + mouseY);//APAGAR!! Informa o X e o Y quando existe um click no mouse
-        if(mouseX >= 43 && mouseX <= 75 && mouseY >= 113 && mouseY <= 145) {
-            aimTrainerPicture.load("resources/GAME_SELECTION_2.png");
-        }
     }
 
 }

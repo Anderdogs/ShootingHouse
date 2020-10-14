@@ -1,12 +1,7 @@
 package org.academiadecodigo.anderdogs.shootinghousegame;
 
-public class UnderDevelopment extends Games {
+public class UnderDevelopment {
 
     //Methods
 
-
-    @Override
-    public void initializeGame() {
-
-    }
 }

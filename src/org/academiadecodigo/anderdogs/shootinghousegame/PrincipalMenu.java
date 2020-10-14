@@ -41,7 +41,7 @@ public class PrincipalMenu implements KeyboardHandler, MouseHandler {
         }
         switch (getGameOption()){ //Mediante o case, instancia um novo jogo
             case "ReactionTrainer":
-                games = new ReactionTrainer();
+                //games = new ReactionTrainer();
                 break;
             case "AimTrainer":
                 games = new AimTrainer();

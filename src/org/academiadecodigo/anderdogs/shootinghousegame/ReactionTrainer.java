@@ -1,33 +1,252 @@
 package org.academiadecodigo.anderdogs.shootinghousegame;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class ReactionTrainer extends Games implements MouseHandler {
+public class ReactionTrainer implements MouseHandler {
 
     //Properties
-    private Picture reactionTrainerPicture;
-    private double mouseX;//Variável que irá guardar o X do rato
-    private double mouseY;//Variável que irá guardar o Y do rato
+    private Picture reactionBackground;
+    private Picture shot;
+    private Picture[] lives;
+    private AudioPlayer shotsound;
+    private String[] targets;
     private Mouse mouse;
-    private PrincipalMenu principalMenu;
+    private double mouseX;
+    private double mouseY;
+    private MouseEventType eventType;
+    private Text text;
+    private boolean tooSoon = false;
+    private boolean click = false;
+    private final int totalLives = 5;
+    private int remainingLives;
+    private int rounds;
+    private long start = 0;
+    private long finale = 0;
+    private long media = 0;
+    private long[] reactionTimes;
+    //private PrincipalMenu principalMenu;
 
-    //Constructor
     public ReactionTrainer(){
-        reactionTrainerPicture = new Picture(10,10,"resources/TRANSITION_GAME_SELECTION.png");
-        reactionTrainerPicture.draw();
+        this.reactionBackground = new Picture(10,10,"resources/Game_reaction_trainer.png");
+        this.remainingLives = totalLives;
+        this.reactionTimes = new long[5];
+        this.shotsound = new AudioPlayer();
+        this.eventType = MouseEventType.MOUSE_CLICKED;
     }
 
-    //Methods
-    @Override //Da super class Games
-    public void initializeGame() throws InterruptedException {
-        reactionTrainerPicture.load("resources/Game_reaction_trainer_vazio.png");
-        Thread.sleep(1000);
-        reactionTrainerPicture.load("resources/Game_reaction_trainer.png");
+
+    public void start() throws InterruptedException {
+
+        text = new Text(620,100,"PLEASE WAIT FOR TARGET");
+        text.grow(150,50);
+        text.setColor(Color.WHITE);
+
         initMouse();
+        mouse.addEventListener(eventType);
+
+        while(true) {
+            // Menu de entrada
+            reactionBackground.draw();
+            // Espera para
+            while(true){
+
+                Thread.sleep(0);
+                if (mouseX >= 38 && mouseX <= 63 && mouseY >= 53 && mouseY <= 76) {
+                    System.out.println("QUIT");
+                    reactionBackground.delete();
+                    mouse.removeEventListener(eventType);
+                    Thread.sleep(50);
+                    return;
+                }
+
+                if (mouseX >= 530 && mouseX <= 747 && mouseY >= 671 && mouseY <= 721) {
+                    System.out.println("PLAY");
+                    Thread.sleep(50);
+                    mouse.removeEventListener(eventType);
+                    break;
+                }
+                Thread.sleep(0);
+            }
+            mouseX=0;
+            mouseY=0;
+
+            createTargets();
+
+            while(true){
+
+                reactionBackground.load("resources/TRANSITION_GAME_SELECTION.png");
+                createLives();
+
+                while (rounds < 5) {
+                    text.setText("PLEASE WAIT FOR TARGET");
+                    text.draw();
+                    drawLives();
+                    click=false;
+                    Thread.sleep(10);
+                    mouse.addEventListener(eventType);
+
+                    if(tooSoon()){
+                        shootingEarly();
+                        if(remainingLives==0){
+                            break;
+                        }
+                    } else {
+                        reactionBackground.load(targets[rounds]);
+                        text.setText("SHOOT NOW");
+                        Thread.sleep(10);
+                        start = System.currentTimeMillis();
+
+                        while(true) {
+                            Thread.sleep(0);
+                            if (mouseX >= 485 && mouseX <= 790 && mouseY >= 480 && mouseY <= 760) {
+                                finale = System.currentTimeMillis();
+                                break;
+                            }
+                            if (mouseX >= 578 && mouseX <= 700 && mouseY >= 255 && mouseY <= 480) {
+                                finale = System.currentTimeMillis();
+                                break;
+                            }
+                            Thread.sleep(0);
+                        }
+
+                        reactionTimes[rounds] = (finale - start);
+                        text.setText(reactionTimes[rounds] + " ms");
+                        shot = new Picture(mouseX-40, mouseY-60,"resources/SHOT2.png");
+                        shot.draw();
+                        shotsound.pewpew();
+                        click = false;
+                        mouseX=0;
+                        mouseY=0;
+                        rounds++;
+                        mouse.removeEventListener(eventType);
+                        Thread.sleep(2000);
+                        shot.delete();
+                        reactionBackground.load("resources/TRANSITION_GAME_SELECTION.png");
+                        }
+                    tooSoon = false;
+                    }
+                rounds = 0;
+                deleteLives();
+                if(remainingLives==0) {
+                    gameOverMenu();
+                } else {
+                    resultsMenu();
+                }
+                remainingLives = totalLives;
+                mouse.addEventListener(eventType);
+
+                while(true){
+
+                    Thread.sleep(0);
+                    if (mouseX >= 38 && mouseX <= 63 && mouseY >= 53 && mouseY <= 76) {
+                        System.out.println("QUIT");
+                        reactionBackground.delete();
+                        text.delete();
+                        mouse.removeEventListener(eventType);
+                        Thread.sleep(50);
+                        return;
+                    }
+
+                    if (mouseX >= 530 && mouseX <= 747 && mouseY >= 671 && mouseY <= 721) {
+                        System.out.println("PLAY");
+                        Thread.sleep(50);
+                        break;
+                    }
+                    Thread.sleep(0);
+                }
+                mouseX=0;
+                mouseY=0;
+                text.delete();
+                mouse.removeEventListener(eventType);
+                }
+            }
+        }
+
+
+
+
+
+    private void shootingEarly() throws InterruptedException {
+        text.setText("TOO SOON");
+        text.draw();
+        remainingLives--;
+        lives[remainingLives].delete();
+        if (remainingLives == 0) {
+            text.setText("GAME OVER");
+            text.draw();
+            Thread.sleep(2000);
+            return;
+        }
+        mouse.removeEventListener(eventType);
+        Thread.sleep(2000);
+        reactionBackground.load("resources/TRANSITION_GAME_SELECTION.png");
+    }
+
+    private boolean tooSoon() throws InterruptedException {
+
+        int waitTime = 20+(int)Math.round(Math.random()*15);
+
+        for(int i = 0; i<waitTime; i++){
+            Thread.sleep(100);
+            if(click){
+                tooSoon=true;
+                click=false;
+                mouseX=0;
+                mouseY=0;
+                return true;
+            }
+        }
+        Thread.sleep(100);
+        return false;
+    }
+
+    private void resultsMenu(){
+        reactionBackground.load("resources/Game_reaction_trainer.png");
+        for(int i = 0; i<reactionTimes.length; i++){
+            media+=reactionTimes[i];
+        }
+        media=(media/5);
+        text.setText("Media: " + media + " ms");
+        media=0;
+    }
+
+    private void gameOverMenu(){
+        reactionBackground.load("resources/Game_reaction_trainer.png");
+        tooSoon=false;
+    }
+
+    private void createTargets(){
+        targets = new String[5];
+        targets[0] = "resources/Game_reaction_trainer_2.png";
+        targets[1] = "resources/Game_reaction_trainer_3.png";
+        targets[2] = "resources/Game_reaction_trainer_4.png";
+        targets[3] = "resources/Game_reaction_trainer_5.png";
+        targets[4] = "resources/Game_reaction_trainer_6.png";
+    }
+
+    private void createLives(){
+        lives = new Picture[5];
+        for(int i = 0; i<totalLives; i++){
+            lives[i]= new Picture (50+(25*i), 640, "resources/heart.png");
+        }
+    }
+
+    private void drawLives(){
+        for(int i = 0; i<remainingLives; i++){
+            lives[i].draw();
+        }
+    }
+
+    private void deleteLives(){
+        for(int i = 0; i<remainingLives; i++ ){
+            lives[i].delete();
+        }
     }
 
 
@@ -37,21 +256,15 @@ public class ReactionTrainer extends Games implements MouseHandler {
     }
 
     public void initMouse(){
-        mouse = new Mouse(this);//Momento de instanciação DESTE mouse (o que está a ser utilizado pelo utilizador)
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);//Momento em que damos atenção a um evento do mouse (Mouse_Clicked)
+        mouse = new Mouse(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         mouseX = mouseEvent.getX();//Ver explicação nas properties
         mouseY = mouseEvent.getY();//Ver explicação nas properties
-        System.out.println("X: " + mouseX + "Y: " + mouseY);//APAGAR!! Informa o X e o Y quando existe um click no mouse
-        if(mouseX >= 43 && mouseX <= 75 && mouseY >= 113 && mouseY <= 145) {
-            try {
-                principalMenu = new PrincipalMenu();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        click=true;
+        //shotsound.pewpew();
+        System.out.println("X: " + mouseEvent.getX() + "Y: " + mouseEvent.getY());//APAGAR!! Informa o X e o Y quando existe um click no mouse
     }
 }
