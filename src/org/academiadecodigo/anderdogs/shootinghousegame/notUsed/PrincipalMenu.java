@@ -46,7 +46,7 @@ public class PrincipalMenu implements KeyboardHandler, MouseHandler {
                 //games = new ReactionTrainer();
                 break;
             case "AimTrainer":
-                games = new AimTrainer();
+                //games = new AimTrainer();
                 break;
             /*case "UnderDevelopment":
                 games = new UnderDevelopment();

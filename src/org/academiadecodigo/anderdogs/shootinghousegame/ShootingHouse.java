@@ -64,7 +64,7 @@ public class ShootingHouse /*implements MouseHandler*/ {
                     System.out.println("alo");
                     //mouse.removeEventListener(eventType);
                     Thread.sleep(50);
-                    game = new AimTrainer();
+                    game = new AimTrainer(mouse);
                     game.initializeGame();
                     break;
             }

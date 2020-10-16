@@ -31,7 +31,6 @@ public class ReactionTrainer implements Games, MouseHandler {
     private long finale = 0;
     private long media = 0;
     private long[] reactionTimes;
-    //private PrincipalMenu principalMenu;
 
     public ReactionTrainer(Controls mouse){
         this.mouse=mouse;
@@ -109,10 +108,12 @@ public class ReactionTrainer implements Games, MouseHandler {
                         while(true) {
                             Thread.sleep(0);
                             if (mouseX >= 485 && mouseX <= 790 && mouseY >= 480 && mouseY <= 760) {
+                                System.out.println("body");
                                 finale = System.currentTimeMillis();
                                 break;
                             }
-                            if (mouseX >= 578 && mouseX <= 700 && mouseY >= 255 && mouseY <= 480) {
+                            if (mouseX >= 578 && mouseX <= 708 && mouseY >= 255 && mouseY <= 480) {
+                                System.out.println("headshot");
                                 finale = System.currentTimeMillis();
                                 break;
                             }
@@ -193,7 +194,7 @@ public class ReactionTrainer implements Games, MouseHandler {
 
     private boolean tooSoon() throws InterruptedException {
 
-        int waitTime = 20+(int)Math.round(Math.random()*15);
+        int waitTime = 15+(int)Math.round(Math.random()*25);
 
         for(int i = 0; i<waitTime; i++){
             Thread.sleep(100);
@@ -267,7 +268,6 @@ public class ReactionTrainer implements Games, MouseHandler {
         mouseX = mouseEvent.getX();//Ver explicação nas properties
         mouseY = mouseEvent.getY();//Ver explicação nas properties
         click=true;
-        //shotsound.pewpew();
         //System.out.println("X: " + mouseEvent.getX() + "Y: " + mouseEvent.getY());//APAGAR!! Informa o X e o Y quando existe um click no mouse
     }
 }

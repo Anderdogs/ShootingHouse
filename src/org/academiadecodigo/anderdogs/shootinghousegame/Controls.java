@@ -8,10 +8,9 @@ import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 public class Controls implements MouseHandler {
 
     private Mouse mouse;
-    private double x;
-    private double y;
+    private double x; //Variável que irá guardar o X do rato
+    private double y; //Variável que irá guardar o Y do rato
     private boolean click;
-
 
     public Controls(){
         mouse = new Mouse(this);

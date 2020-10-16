@@ -6,12 +6,9 @@ import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class AimTrainer implements Games, MouseHandler {
+public class AimTrainer implements Games {
 
-    private Mouse mouse;
-    private MouseEventType eventType;
-    private double mouseX; //Variável que irá guardar o X do rato
-    private double mouseY; //Variável que irá guardar o Y do rato
+    private Controls mouse;
     private Picture aimBackground;
     private Picture shot;
     private Target[] target;
@@ -19,8 +16,10 @@ public class AimTrainer implements Games, MouseHandler {
     private boolean endGame;
 
 
-    public AimTrainer(){
-        this.eventType=MouseEventType.MOUSE_CLICKED;
+
+    private Picture testTarget;
+    public AimTrainer(Controls mouse){
+        this.mouse=mouse;
         this.aimBackground = new Picture(10,10,"resources/Game_Aim_trainer_rules.png");
         //this.shot
     }
@@ -32,8 +31,8 @@ public class AimTrainer implements Games, MouseHandler {
         double totalTime;
         double medianTime;
 
-        initMouse();
-        mouse.addEventListener(eventType);
+        //initMouse();
+        //mouse.addEventListener(eventType);
 
         while (true) {
             // Menu de entrada
@@ -43,29 +42,30 @@ public class AimTrainer implements Games, MouseHandler {
             while (true) {
 
                 Thread.sleep(0);
-                if (mouseX >= 38 && mouseX <= 63 && mouseY >= 53 && mouseY <= 76) {
+                if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                     System.out.println("QUIT");
                     aimBackground.delete();
-                    mouse.removeEventListener(eventType);
+                    //mouse.removeEventListener(eventType);
                     Thread.sleep(50);
                     return;
                 }
 
-                if (mouseX >= 530 && mouseX <= 747 && mouseY >= 671 && mouseY <= 721) {
+                if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
                     System.out.println("PLAY");
                     Thread.sleep(50);
-                    mouse.removeEventListener(eventType);
+                    //mouse.removeEventListener(eventType);
                     break;
                 }
                 Thread.sleep(0);
             }
-            mouseX = 0;
-            mouseY = 0;
+            mouse.resetPos();
 
             aimBackground.load("resources/Game reaction trainer vazio.png");
+            testTarget = new Picture(520, 330, "resources/alvoAudreyV1.png");
+            testTarget.draw();
 
             while(true){
-                Thread.sleep(1);
+                Thread.sleep(0);
             }
 
             /*while(!endGame) {
@@ -118,7 +118,7 @@ public class AimTrainer implements Games, MouseHandler {
 
     }
 
-    public void initMouse(){
+    /*public void initMouse(){
         mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
     }
@@ -133,6 +133,6 @@ public class AimTrainer implements Games, MouseHandler {
         System.out.println("X: " + mouseX + "Y: " + mouseY);//APAGAR!! Informa o X e o Y quando existe um click no mouse
         mouseX = mouseEvent.getX();//Ver explicação nas properties
         mouseY = mouseEvent.getY();//Ver explicação nas properties
-    }
+    }*/
 
 }
