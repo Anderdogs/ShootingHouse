@@ -14,10 +14,9 @@ public class AimTrainer implements Games {
     private Target[] target;
     private boolean click;
     private boolean endGame;
-
-
-
     private Picture testTarget;
+
+
     public AimTrainer(Controls mouse){
         this.mouse=mouse;
         this.aimBackground = new Picture(10,10,"resources/Game_Aim_trainer_rules.png");
@@ -31,21 +30,17 @@ public class AimTrainer implements Games {
         double totalTime;
         double medianTime;
 
-        //initMouse();
-        //mouse.addEventListener(eventType);
+        while(true) {
 
-        while (true) {
-            // Menu de entrada
             aimBackground.load("resources/Game_Aim_trainer_rules.png");
             aimBackground.draw();
-            // Espera para
+
             while (true) {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                     System.out.println("QUIT");
                     aimBackground.delete();
-                    //mouse.removeEventListener(eventType);
                     Thread.sleep(50);
                     return;
                 }
@@ -53,14 +48,15 @@ public class AimTrainer implements Games {
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
                     System.out.println("PLAY");
                     Thread.sleep(50);
-                    //mouse.removeEventListener(eventType);
                     break;
                 }
                 Thread.sleep(0);
             }
+
             mouse.resetPos();
 
             aimBackground.load("resources/Game reaction trainer vazio.png");
+
             testTarget = new Picture(520, 330, "resources/alvoAudreyV1.png");
             testTarget.draw();
 
@@ -115,24 +111,9 @@ public class AimTrainer implements Games {
     }
 
     public void createTargets(){
+        target = new Target[15];
+        target[0] = new Target(520, 330, "resources/alvoAudreyV1.png");
 
     }
-
-    /*public void initMouse(){
-        mouse = new Mouse(this);
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.println("X: " + mouseX + "Y: " + mouseY);//APAGAR!! Informa o X e o Y quando existe um click no mouse
-        mouseX = mouseEvent.getX();//Ver explicação nas properties
-        mouseY = mouseEvent.getY();//Ver explicação nas properties
-    }*/
 
 }

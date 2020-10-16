@@ -17,11 +17,6 @@ public class Controls implements MouseHandler {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
     }
 
-    public void addEventListener(){
-
-    }
-
-
     public double mouseX(){
         return x;
     }

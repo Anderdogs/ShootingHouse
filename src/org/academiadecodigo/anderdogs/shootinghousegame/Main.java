@@ -11,13 +11,13 @@ public class Main {
         PrincipalMenu principalMenu = new PrincipalMenu();
         games = principalMenu.chooseGame();
         games.initializeGame();*/
-        AudioPlayer music = new AudioPlayer();
-        music.toto();
+        /*AudioPlayer music = new AudioPlayer();
+        music.toto();*/
 
         ShootingHouse game = new ShootingHouse();
         game.start();
 
-        music.stop();
+        //music.stop();
 
     }
 }
