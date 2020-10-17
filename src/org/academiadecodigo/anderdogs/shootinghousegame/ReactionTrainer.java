@@ -15,14 +15,9 @@ public class ReactionTrainer implements Games {
     private Controls mouse;
     private Text text;
     private Text results;
-    private boolean tooSoon = false;
-    private boolean click = false;
     private final int totalLives = 5;
     private int remainingLives;
-    private int rounds;
-    private long start = 0;
-    private long finale = 0;
-    private long media = 0;
+    private long media;
     private long[] reactionTimes;
 
     public ReactionTrainer(Controls mouse, Picture background){
@@ -31,14 +26,17 @@ public class ReactionTrainer implements Games {
         this.remainingLives = totalLives;
         this.reactionTimes = new long[5];
         this.shotSound = new AudioPlayer();
+        this.text = new Text(620,100,"PLEASE WAIT FOR TARGET");
+        text.grow(150,50);
+        text.setColor(Color.WHITE);
     }
 
 
     public void initializeGame() throws InterruptedException {
 
-        text = new Text(620,100,"PLEASE WAIT FOR TARGET");
-        text.grow(150,50);
-        text.setColor(Color.WHITE);
+        int rounds = 0;
+        long start;
+        long finale;
 
         while(true) {
 
@@ -125,8 +123,8 @@ public class ReactionTrainer implements Games {
                         shot.delete();
                         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
                         }
-                    tooSoon = false;
                     }
+
                 rounds = 0;
                 deleteLives();
                 if(remainingLives==0) {
@@ -141,7 +139,7 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         System.out.println("QUIT");
-                        text.delete();
+                        results.delete();
                         Thread.sleep(50);
                         return;
                     }
@@ -154,7 +152,7 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(0);
                 }
                 mouse.resetPos();
-                text.delete();
+                results.delete();
                 }
             }
         }
@@ -162,18 +160,19 @@ public class ReactionTrainer implements Games {
 
     private void shootingEarly() throws InterruptedException {
 
-        text.setText("TOO SOON");
-        text.draw();
         remainingLives--;
         lives[remainingLives].delete();
+        shot(mouse.mouseX(), mouse.mouseY());
+        mouse.resetPos();
 
         if (remainingLives == 0) {
             text.delete();
+            shot.delete();
             Thread.sleep(100);
             return;
         }
-
-        Thread.sleep(1500);
+        Thread.sleep(1000);
+        shot.delete();
         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
     }
 
@@ -184,9 +183,8 @@ public class ReactionTrainer implements Games {
         for(int i = 0; i<waitTime; i++){
             Thread.sleep(100);
             if(mouse.getClick()){
-                tooSoon=true;
-                mouse.setClick(false);
-                mouse.resetPos();
+                text.setText("TOO SOON");
+                text.draw();
                 return true;
             }
         }
@@ -209,7 +207,6 @@ public class ReactionTrainer implements Games {
 
     private void gameOverMenu(){
         reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain gameover.jpg");
-        tooSoon=false;
     }
 
     private void createTargets(){
@@ -225,7 +222,7 @@ public class ReactionTrainer implements Games {
         lives = new Picture[5];
 
         for(int i = 0; i<totalLives; i++){
-            lives[i] = new Picture (50+(25*i), 640, "resources/Icons/heart.png");
+            lives[i] = new Picture (50+(30*i), 640, "resources/Icons/heart.png");
         }
     }
 
@@ -249,7 +246,6 @@ public class ReactionTrainer implements Games {
         shotSound.awpClipin();
         mouse.setClick(false);
     }
-
 }
 
 //FALTA IMPLEMENTAR FINAL DE MÉDIA
