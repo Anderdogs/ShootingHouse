@@ -17,7 +17,6 @@ public class ShootingHouse {
 
         background = new Picture(10,10,"resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");//Momento de instanciação do PrincipalMenu,recebe uma imagem e coordenadas tendo em atenção Padding do Simple Graphics
         background.draw(); //Desenha a primeira imagem de apresentação(definida no construtor)...
-
         //menuInitiation();
 
         while(true) {
