@@ -34,8 +34,8 @@ public class Controls implements MouseHandler {
         y=0;
     }
 
-    public void setClick(boolean a){
-        click=a;
+    public void setClick(boolean click){
+        this.click=click;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Controls implements MouseHandler {
         x=mouseEvent.getX();
         y=mouseEvent.getY();
         click=true;
-        System.out.println("X: " + mouseEvent.getX() + " Y: " + mouseEvent.getY());
+        //System.out.println("X: " + mouseEvent.getX() + " Y: " + mouseEvent.getY());
     }
 
     @Override

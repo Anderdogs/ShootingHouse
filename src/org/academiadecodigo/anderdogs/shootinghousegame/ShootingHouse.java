@@ -15,9 +15,7 @@ public class ShootingHouse {
 
     public void start() throws InterruptedException {
 
-        background = new Picture(10,10,"resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");//Momento de instanciação do PrincipalMenu,recebe uma imagem e coordenadas tendo em atenção Padding do Simple Graphics
-        background.draw(); //Desenha a primeira imagem de apresentação(definida no construtor)...
-        //menuInitiation();
+        menuInitiation();
 
         while(true) {
 
@@ -38,7 +36,6 @@ public class ShootingHouse {
 
                 if (mouse.mouseX() >= 1245 && mouse.mouseX() <= 1268 && mouse.mouseY() >= 60 && mouse.mouseY() <= 82) {
                     background.load("resources/Goodbye/HOME TITLE thanks.jpg");
-                    System.out.println("QUIT");
                     return;
                 }
                 Thread.sleep(0);
@@ -48,14 +45,12 @@ public class ShootingHouse {
 
             switch (gameChose) {
                 case REACTION:
-                    System.out.println("ola");
-                    Thread.sleep(50);
+                    Thread.sleep(25);
                     game = new ReactionTrainer(mouse, background);
                     game.initializeGame();
                     break;
                 case AIM:
-                    System.out.println("alo");
-                    Thread.sleep(50);
+                    Thread.sleep(25);
                     game = new AimTrainer(mouse, background);
                     game.initializeGame();
                     break;
@@ -74,15 +69,9 @@ public class ShootingHouse {
         Thread.sleep(2000);
         background.load("resources/HomePageMenuPrincipal/HOME TITLE.jpg"); //Completa com o titulo de apresentação
         Thread.sleep(2000);
-        background.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
-        Thread.sleep(500);
-        background.load("resources/HomePageMenuPrincipal/GAME SELECTION 1.jpg");
-        Thread.sleep(500);
         background.load("resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");
-        Thread.sleep(500);
-
+        Thread.sleep(200);
     }
-
 }
 
 //FALTA IMPLEMENTAR TRANSITION GAME SELECTION - DEPOIS DO HOME TITLE

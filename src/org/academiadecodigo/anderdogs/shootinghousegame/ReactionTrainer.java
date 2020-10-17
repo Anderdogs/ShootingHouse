@@ -9,6 +9,7 @@ public class ReactionTrainer implements Games {
     //Properties
     private Picture reactionBackground;
     private Picture shot;
+    private Picture menuButton;
     private Picture[] lives;
     private AudioPlayer shotSound;
     private String[] targets;
@@ -24,6 +25,7 @@ public class ReactionTrainer implements Games {
     public ReactionTrainer(Controls mouse, Picture background){
         this.mouse = mouse;
         this.reactionBackground = background;
+        this.menuButton = new Picture(31,22,"resources/Icons/MenuButton.png");
         this.remainingLives = totalLives;
         this.reactionTimes = new long[5];
         this.shotSound = new AudioPlayer();
@@ -42,19 +44,16 @@ public class ReactionTrainer implements Games {
         while(true) {
 
             reactionBackground.load("resources/ReactionTrainer/Game reaction trainer.jpg");
-            reactionBackground.draw();
 
             while(true){
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                    System.out.println("QUIT");
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                    System.out.println("PLAY");
                     Thread.sleep(50);
                     break;
                 }
@@ -67,6 +66,7 @@ public class ReactionTrainer implements Games {
             while(true){
 
                 reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
+                menuButton.draw();
                 createLives();
 
                 while (rounds < 5) {
@@ -79,6 +79,7 @@ public class ReactionTrainer implements Games {
 
                     if(tooSoon()){
                         if(endGame){
+                            menuButton.delete();
                             endGame=false;
                             return;
                         }
@@ -99,21 +100,19 @@ public class ReactionTrainer implements Games {
 
                             Thread.sleep(0);
                             if (mouse.mouseX() >= 485 && mouse.mouseX() <= 790 && mouse.mouseY() >= 480 && mouse.mouseY() <= 760) {
-                                System.out.println("body");
                                 finale = System.currentTimeMillis();
                                 break;
                             }
                             if (mouse.mouseX() >= 578 && mouse.mouseX() <= 708 && mouse.mouseY() >= 255 && mouse.mouseY() <= 480) {
-                                System.out.println("headshot");
                                 finale = System.currentTimeMillis();
                                 break;
                             }
 
                             if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                                System.out.println("QUIT");
                                 deleteLives();
                                 text.delete();
-                                Thread.sleep(50);
+                                menuButton.delete();
+                                Thread.sleep(25);
                                 return;
                             }
                             Thread.sleep(0);
@@ -129,9 +128,9 @@ public class ReactionTrainer implements Games {
                         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
                         }
                     }
-
                 rounds = 0;
                 deleteLives();
+                menuButton.delete();
                 if(remainingLives==0) {
                     gameOverMenu();
                 } else {
@@ -143,14 +142,12 @@ public class ReactionTrainer implements Games {
 
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                        System.out.println("QUIT");
                         results.delete();
                         Thread.sleep(50);
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                        System.out.println("PLAY AGAIN");
                         Thread.sleep(50);
                         break;
                     }
@@ -189,7 +186,6 @@ public class ReactionTrainer implements Games {
             Thread.sleep(100);
 
             if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                System.out.println("QUIT");
                 deleteLives();
                 text.delete();
                 endGame=true;

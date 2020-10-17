@@ -9,9 +9,9 @@ public class AimTrainer implements Games {
     private AudioPlayer shotSound;
     private Controls mouse;
     private Picture aimBackground;
+    private Picture menuButton;
     private Picture shot;
     private Target[] target;
-    private Picture testTarget;
     private int totalEnemies;
     private int remainingTargets;
     private Text text1;
@@ -22,6 +22,7 @@ public class AimTrainer implements Games {
     public AimTrainer(Controls mouse, Picture aimBackground){
         this.mouse=mouse;
         this.aimBackground = aimBackground;
+        this.menuButton = new Picture(31,22,"resources/Icons/MenuButton.png");
         this.shotSound=new AudioPlayer();
         this.totalEnemies=20;
         this.target = new Target[totalEnemies];
@@ -37,19 +38,16 @@ public class AimTrainer implements Games {
         while(true) {
 
             aimBackground.load("resources/AimTrainer/Game Aim trainer rules.jpg");
-            aimBackground.draw();
 
             while (true) {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                    System.out.println("QUIT");
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                    System.out.println("PLAY");
                     Thread.sleep(50);
                     break;
                 }
@@ -59,12 +57,7 @@ public class AimTrainer implements Games {
             mouse.resetPos();
 
             aimBackground.load("resources/ReactionTrainer/Game reaction trainer vazio.jpg");
-
-            /*testTarget = new Picture(623, 320, "resources/AimTrainer/Game aim trainer3.png");
-            testTarget.draw();
-            while(true){
-                Thread.sleep(0);
-            }*/
+            menuButton.draw();
 
             while(true) {
 
@@ -80,30 +73,33 @@ public class AimTrainer implements Games {
                 for (int i = 0; i<totalEnemies; i++) {
                     target[i].drawTarget();
                     mouse.resetPos();
+                    mouse.setClick(false);
 
                     while (true) {
                         if (mouse.mouseX()-10 >= target[i].getX() && mouse.mouseX()-10 <= (target[i].getWidth()) &&
                                 mouse.mouseY()-30 >= target[i].getY() && mouse.mouseY()-30 <= (target[i].getHeight())) {
-                            mouse.setClick(true);
                             shot(mouse.mouseX(), mouse.mouseY());
                             target[i].destroy();
                             remainingTargets--;
                             text3.setText("Remaining Targets: " + remainingTargets);
-                            text3.draw();
                             break;
                         }
 
                         if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                            System.out.println("QUIT");
+                            menuButton.delete();
                             target[i].destroy();
                             text3.delete();
-                            Thread.sleep(50);
+                            Thread.sleep(25);
                             return;
                         }
 
-                        Thread.sleep(10);
+                        if(mouse.getClick()){
+                            shot(mouse.mouseX(), mouse.mouseY());
+                        }
+                        mouse.setClick(false);
+                        Thread.sleep(0);
                     }
-                    Thread.sleep(25);
+                    Thread.sleep(0);
                 }
                 text3.delete();
                 mouse.setClick(false);
@@ -117,14 +113,13 @@ public class AimTrainer implements Games {
                 while (true) {
 
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                        System.out.println("QUIT");
+                        menuButton.delete();
                         text1.delete();
                         text2.delete();
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                        System.out.println("PLAY AGAIN");
                         break;
                     }
                     Thread.sleep(0);
@@ -171,7 +166,7 @@ public class AimTrainer implements Games {
                     target[i] = new Target(684, 130, "resources/AimTrainer/Game aim trainer9.png");
                     break;
                 case 9:
-                    target[i] = new Target(993, 473, "resources/AimTrainer/Game aim trainer10.png");
+                    target[i] = new Target(993, 470, "resources/AimTrainer/Game aim trainer10.png");
                     break;
                 case 10:
                     target[i] = new Target(273, 10, "resources/AimTrainer/Game aim trainer11.png");
