@@ -111,7 +111,7 @@ public class ReactionTrainer implements Games {
 
                         text.setText(reactionTimes[rounds] + " ms");
 
-                        shot = new Picture(mouse.mouseX()-80, mouse.mouseY()-120,"resources/Icons/SHOT2v2.png");
+                        shot = new Picture(mouse.mouseX()-40, mouse.mouseY()-80,"resources/Icons/SHOT2_50%.png");
                         shot.draw();
 
                         shotsound.awp();
@@ -199,7 +199,7 @@ public class ReactionTrainer implements Games {
     }
 
     private void resultsMenu(){
-        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer.jpg");
+        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain.jpg");
         for(int i = 0; i<reactionTimes.length; i++){
             media+=reactionTimes[i];
         }
@@ -209,7 +209,7 @@ public class ReactionTrainer implements Games {
     }
 
     private void gameOverMenu(){
-        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer.jpg");
+        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain gameover.jpg");
         tooSoon=false;
     }
 
