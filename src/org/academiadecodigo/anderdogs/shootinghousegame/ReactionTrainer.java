@@ -15,6 +15,7 @@ public class ReactionTrainer implements Games {
     private Controls mouse;
     private Text text;
     private Text results;
+    private boolean endGame;
     private final int totalLives = 5;
     private int remainingLives;
     private long media;
@@ -77,6 +78,10 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(10);
 
                     if(tooSoon()){
+                        if(endGame){
+                            endGame=false;
+                            return;
+                        }
                         shootingEarly();
                         if(remainingLives==0){
                             break;
@@ -182,6 +187,16 @@ public class ReactionTrainer implements Games {
 
         for(int i = 0; i<waitTime; i++){
             Thread.sleep(100);
+
+            if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                System.out.println("QUIT");
+                deleteLives();
+                text.delete();
+                endGame=true;
+                Thread.sleep(50);
+                return true;
+            }
+
             if(mouse.getClick()){
                 text.setText("TOO SOON");
                 text.draw();

@@ -19,9 +19,9 @@ public class AimTrainer implements Games {
     private Text text3;
 
 
-    public AimTrainer(Controls mouse){
+    public AimTrainer(Controls mouse, Picture aimBackground){
         this.mouse=mouse;
-        this.aimBackground = new Picture(10,10,"resources/AimTrainer/Game Aim trainer rules.jpg");
+        this.aimBackground = aimBackground;
         this.shotSound=new AudioPlayer();
         this.totalEnemies=20;
         this.target = new Target[totalEnemies];
@@ -44,7 +44,6 @@ public class AimTrainer implements Games {
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                     System.out.println("QUIT");
-                    aimBackground.delete();
                     Thread.sleep(50);
                     return;
                 }
@@ -93,6 +92,15 @@ public class AimTrainer implements Games {
                             text3.draw();
                             break;
                         }
+
+                        if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                            System.out.println("QUIT");
+                            target[i].destroy();
+                            text3.delete();
+                            Thread.sleep(50);
+                            return;
+                        }
+
                         Thread.sleep(10);
                     }
                     Thread.sleep(25);
@@ -112,7 +120,6 @@ public class AimTrainer implements Games {
                         System.out.println("QUIT");
                         text1.delete();
                         text2.delete();
-                        aimBackground.delete();
                         return;
                     }
 
@@ -137,7 +144,7 @@ public class AimTrainer implements Games {
 
             switch(randomPos) {
                 case 0:
-                    target[i] = new Target(80, 470, "resources/AimTrainer/Game aim trainer1.png");
+                    target[i] = new Target(80, 467, "resources/AimTrainer/Game aim trainer1.png");
                     break;
                 case 1:
                     target[i] = new Target(522, 128, "resources/AimTrainer/Game aim trainer2.png");
@@ -146,7 +153,7 @@ public class AimTrainer implements Games {
                     target[i] = new Target(623, 320, "resources/AimTrainer/Game aim trainer3.png");
                     break;
                 case 3:
-                    target[i] = new Target(543, 363, "resources/AimTrainer/Game aim trainer4.png");
+                    target[i] = new Target(543, 360, "resources/AimTrainer/Game aim trainer4.png");
                     break;
                 case 4:
                     target[i] = new Target(779, 275, "resources/AimTrainer/Game aim trainer5.png");
@@ -155,7 +162,7 @@ public class AimTrainer implements Games {
                     target[i] = new Target(605, 10, "resources/AimTrainer/Game aim trainer6.png");
                     break;
                 case 6:
-                    target[i] = new Target(967, 283, "resources/AimTrainer/Game aim trainer7.png");
+                    target[i] = new Target(964, 283, "resources/AimTrainer/Game aim trainer7.png");
                     break;
                 case 7:
                     target[i] = new Target(425, 280, "resources/AimTrainer/Game aim trainer8.png");
@@ -179,7 +186,7 @@ public class AimTrainer implements Games {
                     target[i] = new Target(852, 10, "resources/AimTrainer/Game aim trainer14.png");
                     break;
                 case 14:
-                    target[i] = new Target(317, 404, "resources/AimTrainer/Game aim trainer15.png");
+                    target[i] = new Target(317, 374, "resources/AimTrainer/Game aim trainer15.png");
                     break;
             }
         }

@@ -56,7 +56,7 @@ public class ShootingHouse {
                 case AIM:
                     System.out.println("alo");
                     Thread.sleep(50);
-                    game = new AimTrainer(mouse);
+                    game = new AimTrainer(mouse, background);
                     game.initializeGame();
                     break;
             }
