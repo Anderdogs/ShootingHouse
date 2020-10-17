@@ -10,10 +10,11 @@ public class ReactionTrainer implements Games {
     private Picture reactionBackground;
     private Picture shot;
     private Picture[] lives;
-    private AudioPlayer shotsound;
+    private AudioPlayer shotSound;
     private String[] targets;
     private Controls mouse;
     private Text text;
+    private Text results;
     private boolean tooSoon = false;
     private boolean click = false;
     private final int totalLives = 5;
@@ -24,12 +25,12 @@ public class ReactionTrainer implements Games {
     private long media = 0;
     private long[] reactionTimes;
 
-    public ReactionTrainer(Controls mouse){
+    public ReactionTrainer(Controls mouse, Picture background){
         this.mouse = mouse;
-        this.reactionBackground = new Picture(10,10,"resources/ReactionTrainer/Game reaction trainer.jpg");
+        this.reactionBackground = background;
         this.remainingLives = totalLives;
         this.reactionTimes = new long[5];
-        this.shotsound = new AudioPlayer();
+        this.shotSound = new AudioPlayer();
     }
 
 
@@ -41,6 +42,7 @@ public class ReactionTrainer implements Games {
 
         while(true) {
 
+            reactionBackground.load("resources/ReactionTrainer/Game reaction trainer.jpg");
             reactionBackground.draw();
 
             while(true){
@@ -48,7 +50,6 @@ public class ReactionTrainer implements Games {
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                     System.out.println("QUIT");
-                    reactionBackground.delete();
                     Thread.sleep(50);
                     return;
                 }
@@ -104,30 +105,28 @@ public class ReactionTrainer implements Games {
                                 finale = System.currentTimeMillis();
                                 break;
                             }
+
+                            if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                                System.out.println("QUIT");
+                                deleteLives();
+                                text.delete();
+                                Thread.sleep(50);
+                                return;
+                            }
                             Thread.sleep(0);
                         }
 
                         reactionTimes[rounds] = (finale - start);
-
                         text.setText(reactionTimes[rounds] + " ms");
 
-                        shot = new Picture(mouse.mouseX()-40, mouse.mouseY()-80,"resources/Icons/SHOT2_50%.png");
-                        shot.draw();
-
-                        shotsound.awp();
-                        Thread.sleep(800);
-                        shotsound.awpClipin();
-
-                        mouse.setClick(false);
+                        shot(mouse.mouseX(), mouse.mouseY());
                         rounds++;
                         Thread.sleep(2000);
                         shot.delete();
-
                         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
                         }
                     tooSoon = false;
                     }
-
                 rounds = 0;
                 deleteLives();
                 if(remainingLives==0) {
@@ -142,7 +141,6 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         System.out.println("QUIT");
-                        reactionBackground.delete();
                         text.delete();
                         Thread.sleep(50);
                         return;
@@ -170,19 +168,18 @@ public class ReactionTrainer implements Games {
         lives[remainingLives].delete();
 
         if (remainingLives == 0) {
-            text.setText("GAME OVER");
-            text.draw();
-            Thread.sleep(2000);
+            text.delete();
+            Thread.sleep(100);
             return;
         }
 
-        Thread.sleep(2000);
+        Thread.sleep(1500);
         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
     }
 
     private boolean tooSoon() throws InterruptedException {
 
-        int waitTime = 15+(int)Math.round(Math.random()*25);
+        int waitTime = 20+(int)Math.round(Math.random()*30);
 
         for(int i = 0; i<waitTime; i++){
             Thread.sleep(100);
@@ -194,17 +191,19 @@ public class ReactionTrainer implements Games {
             }
         }
         mouse.resetPos();
-        Thread.sleep(100);
         return false;
     }
 
     private void resultsMenu(){
         reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain.jpg");
+        text.delete();
         for(int i = 0; i<reactionTimes.length; i++){
             media+=reactionTimes[i];
         }
         media=(media/5);
-        text.setText("Media: " + media + " ms");
+        results = new Text(625, 340, media + " ms");
+        results.grow(100,30);
+        results.draw();
         media=0;
     }
 
@@ -240,6 +239,15 @@ public class ReactionTrainer implements Games {
         for(int i = 0; i<remainingLives; i++ ){
             lives[i].delete();
         }
+    }
+
+    private void shot(double x, double y) throws InterruptedException {
+        shot = new Picture(x-45, y-75,"resources/Icons/SHOT2_50%.png");
+        shot.draw();
+        shotSound.awp();
+        Thread.sleep(800);
+        shotSound.awpClipin();
+        mouse.setClick(false);
     }
 
 }

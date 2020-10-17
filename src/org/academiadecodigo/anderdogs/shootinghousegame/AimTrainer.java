@@ -1,10 +1,7 @@
 package org.academiadecodigo.anderdogs.shootinghousegame;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
-import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
-import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class AimTrainer implements Games {
@@ -14,19 +11,20 @@ public class AimTrainer implements Games {
     private Picture aimBackground;
     private Picture shot;
     private Target[] target;
-    private boolean click;
-    private boolean endGame;
     private Picture testTarget;
     private int totalEnemies;
-    private int targetsDestroyed;
+    private int remainingTargets;
+    private Text text1;
+    private Text text2;
+    private Text text3;
 
 
     public AimTrainer(Controls mouse){
         this.mouse=mouse;
         this.aimBackground = new Picture(10,10,"resources/AimTrainer/Game Aim trainer rules.jpg");
         this.shotSound=new AudioPlayer();
-        this.totalEnemies=30;
-        target = new Target[30];
+        this.totalEnemies=20;
+        this.target = new Target[totalEnemies];
     }
 
     public void initializeGame() throws InterruptedException {
@@ -35,7 +33,6 @@ public class AimTrainer implements Games {
         double endTime;
         double totalTime;
         double medianTime;
-        Target currentTarget;
 
         while(true) {
 
@@ -73,10 +70,17 @@ public class AimTrainer implements Games {
             while(true) {
 
                 createTargets();
+                remainingTargets=totalEnemies;
+                text3 = new Text(600, 25, "Remaining Targets: " + remainingTargets);
+                text3.grow(100,10);
+                text3.setColor(Color.WHITE);
+                text3.draw();
+
                 startTime = System.currentTimeMillis();
 
                 for (int i = 0; i<totalEnemies; i++) {
                     target[i].drawTarget();
+                    mouse.resetPos();
 
                     while (true) {
                         if (mouse.mouseX()-10 >= target[i].getX() && mouse.mouseX()-10 <= (target[i].getWidth()) &&
@@ -84,40 +88,43 @@ public class AimTrainer implements Games {
                             mouse.setClick(true);
                             shot(mouse.mouseX(), mouse.mouseY());
                             target[i].destroy();
-                            targetsDestroyed++;
+                            remainingTargets--;
+                            text3.setText("Remaining Targets: " + remainingTargets);
+                            text3.draw();
                             break;
                         }
                         Thread.sleep(10);
                     }
-                    mouse.resetPos();
-                    Thread.sleep(50);
+                    Thread.sleep(25);
                 }
+                text3.delete();
                 mouse.setClick(false);
                 mouse.resetPos();
                 endTime = System.currentTimeMillis();
                 totalTime = ((endTime - startTime) / 1000);
-                medianTime = (totalTime / totalEnemies) * 1000;
+                medianTime = ((endTime - startTime) / totalEnemies);
 
-                game2Results(totalTime, medianTime);
+                aimTrainerResults(totalTime, medianTime);
 
                 while (true) {
 
-                    Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         System.out.println("QUIT");
+                        text1.delete();
+                        text2.delete();
                         aimBackground.delete();
-                        Thread.sleep(50);
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
                         System.out.println("PLAY AGAIN");
-                        Thread.sleep(50);
                         break;
                     }
                     Thread.sleep(0);
                 }
-                Thread.sleep(200);
+                Thread.sleep(0);
+                text1.delete();
+                text2.delete();
                 aimBackground.load("resources/ReactionTrainer/Game reaction trainer vazio.jpg");
             }
         }
@@ -125,7 +132,7 @@ public class AimTrainer implements Games {
 
     public void createTargets(){
         int randomPos;
-        for(int i = 0; i<30; i++) {
+        for(int i = 0; i<totalEnemies; i++) {
             randomPos = (int) Math.floor(Math.random() * 15);
 
             switch(randomPos) {
@@ -178,18 +185,20 @@ public class AimTrainer implements Games {
         }
     }
 
-    private void game2Results(double totalTime, double median) throws InterruptedException {
+    private void aimTrainerResults(double totalTime, double median) throws InterruptedException {
 
         aimBackground.load("resources/AimTrainer/Game aim trainer tryagain_.jpg");
-        Text text1 = new Text(150, 200, "Game ended in: " + totalTime + " seconds.");
-        Text text2 = new Text(170, 225, "Median Time: " + median + " ms");
+        text1 = new Text(608, 340, totalTime + " seconds");
+        text2 = new Text(620, 450, median + " ms");
+        text1.grow(60,10);
+        text2.grow(40,10);
         text1.draw();
         text2.draw();
         Thread.sleep(1000);
     }
 
     private void shot(double x, double y) throws InterruptedException {
-        shot = new Picture(x-40, y-60, "resources/Icons/SHOT2_50%.png");
+        shot = new Picture(x-45, y-75, "resources/Icons/SHOT2_50%.png");
         shot.draw();
         shotSound.awp();
         Thread.sleep(50);

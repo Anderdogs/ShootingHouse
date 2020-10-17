@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ShootingHouseGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ShootingHouseGame_jar</output-path>
+    <root id="archive" name="ShootingHouseGame.jar">
+      <element id="module-output" name="ShootingHouseGame" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/simplegraphics.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -50,7 +50,7 @@ public class ShootingHouse {
                 case REACTION:
                     System.out.println("ola");
                     Thread.sleep(50);
-                    game = new ReactionTrainer(mouse);
+                    game = new ReactionTrainer(mouse, background);
                     game.initializeGame();
                     break;
                 case AIM:
