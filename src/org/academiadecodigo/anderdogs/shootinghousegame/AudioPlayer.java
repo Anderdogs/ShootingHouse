@@ -12,7 +12,7 @@ public class AudioPlayer {
 
         public void toto() {
                 try {
-                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/africa-toto.wav"));
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/africa-toto.wav"));
                         clip = AudioSystem.getClip();
                         clip.open(audioInputStream);
                         clip.start();
@@ -23,9 +23,49 @@ public class AudioPlayer {
                 }
         }
 
+        public void suspanse() {
+                try {
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/teste.wav"));
+                        clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        // If you want the sound to loop infinitely, then put: clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        // If you want to stop the sound, then use clip.stop();
+                } catch (Exception ex) {
+                        ex.printStackTrace();
+                }
+        }
+
         public void pewpew() {
                 try {
-                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/PewPew.wav"));
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/PewPew.wav"));
+                        clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.start();
+                        // If you want the sound to loop infinitely, then put: clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        // If you want to stop the sound, then use clip.stop();
+                } catch (Exception ex) {
+                        ex.printStackTrace();
+                }
+        }
+
+        public void awp() {
+                try {
+
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/awp1.wav"));
+                        clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.start();
+                        // If you want the sound to loop infinitely, then put: clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        // If you want to stop the sound, then use clip.stop();
+                } catch (Exception ex) {
+                        ex.printStackTrace();
+                }
+        }
+        public void awpClipin() {
+                try {
+
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/awp_clipin.wav"));
                         clip = AudioSystem.getClip();
                         clip.open(audioInputStream);
                         clip.start();
@@ -39,8 +79,6 @@ public class AudioPlayer {
         public void stop(){
                 clip.stop();
         }
-
-
 
 }
 

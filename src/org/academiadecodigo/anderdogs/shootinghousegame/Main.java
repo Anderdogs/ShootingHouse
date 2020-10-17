@@ -11,8 +11,11 @@ public class Main {
         PrincipalMenu principalMenu = new PrincipalMenu();
         games = principalMenu.chooseGame();
         games.initializeGame();*/
+
+
         /*AudioPlayer music = new AudioPlayer();
-        music.toto();*/
+        music.suspanse();
+         */
 
         ShootingHouse game = new ShootingHouse();
         game.start();

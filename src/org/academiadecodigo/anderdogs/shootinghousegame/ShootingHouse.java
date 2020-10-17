@@ -1,104 +1,90 @@
 package org.academiadecodigo.anderdogs.shootinghousegame;
 
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
-import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
-import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class ShootingHouse implements MouseHandler {
+public class ShootingHouse {
 
-    protected Mouse mouse;
-    protected double mouseX; //Variável que irá guardar o X do rato
-    protected double mouseY; //Variável que irá guardar o Y do rato
-    private ReactionTrainer reaction;
-    private AimTrainer aim;
+    private Controls mouse;
+    private Games game;
     private Picture background;
     private GamesOption gameChose;
-    private MouseEventType eventType = MouseEventType.MOUSE_CLICKED;
 
+    public ShootingHouse(){
+        mouse = new Controls();
+    }
 
     public void start() throws InterruptedException {
 
-        menuInitiation();
-        mouseInit();
+        background = new Picture(10,10,"resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");//Momento de instanciação do PrincipalMenu,recebe uma imagem e coordenadas tendo em atenção Padding do Simple Graphics
+        background.draw(); //Desenha a primeira imagem de apresentação(definida no construtor)...
+
+        //menuInitiation();
 
         while(true) {
 
-            mouse.addEventListener(eventType);
-            background.load("resources/GAME_SELECTION_2.png");
+            background.load("resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");
 
             while (true) {
 
                 Thread.sleep(0);
-                if (mouseX >= 170 && mouseX <= 386 && mouseY >= 270 && mouseY <= 320) {
+                if (mouse.mouseX() >= 357 && mouse.mouseX() <= 571 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
                     gameChose = GamesOption.REACTION;
                     break;
                 }
 
-                if (mouseX >= 551 && mouseX <= 767 && mouseY >= 270 && mouseY <= 320) {
+                if (mouse.mouseX() >= 737 && mouse.mouseX() <= 952 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
                     gameChose = GamesOption.AIM;
                     break;
                 }
 
-                if (mouseX >= 38 && mouseX <= 63 && mouseY >= 53 && mouseY <= 76) {
+                if (mouse.mouseX() >= 1245 && mouse.mouseX() <= 1268 && mouse.mouseY() >= 60 && mouse.mouseY() <= 82) {
+                    background.load("resources/Goodbye/HOME TITLE thanks.jpg");
                     System.out.println("QUIT");
-                    mouse.removeEventListener(eventType);
                     return;
                 }
                 Thread.sleep(0);
             }
 
+            mouse.resetPos();
+
             switch (gameChose) {
                 case REACTION:
                     System.out.println("ola");
-                    mouse.removeEventListener(eventType);
                     Thread.sleep(50);
-                    reaction = new ReactionTrainer();
-                    reaction.start();
+                    game = new ReactionTrainer(mouse);
+                    game.initializeGame();
                     break;
                 case AIM:
                     System.out.println("alo");
-                    mouse.removeEventListener(eventType);
+                    Thread.sleep(50);
+                    game = new AimTrainer(mouse);
+                    game.initializeGame();
                     break;
-                case QUIT:
-                    System.out.println("QUIT");
-                    mouse.removeEventListener(eventType);
-                    return;
             }
-            mouseX=0;
-            mouseY=0;
+            mouse.resetPos();
             gameChose=null;
         }
+
     }
 
 
 
     public void menuInitiation() throws InterruptedException {
-
-        background = new Picture(10,10,"resources/HOME.png");//Momento de instanciação do PrincipalMenu,recebe uma imagem e coordenadas tendo em atenção Padding do Simple Graphics
+        background = new Picture(10,10,"resources/HomePageMenuPrincipal/HOME.jpg");//Momento de instanciação do PrincipalMenu,recebe uma imagem e coordenadas tendo em atenção Padding do Simple Graphics
         background.draw(); //Desenha a primeira imagem de apresentação(definida no construtor)...
         Thread.sleep(2000);
-        background.load("resources/HOME2.png"); //Completa com o titulo de apresentação
+        background.load("resources/HomePageMenuPrincipal/HOME TITLE.jpg"); //Completa com o titulo de apresentação
         Thread.sleep(2000);
-        background.load("resources/GAME_SELECTION_1.png");
+        background.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
+        Thread.sleep(500);
+        background.load("resources/HomePageMenuPrincipal/GAME SELECTION 1.jpg");
+        Thread.sleep(500);
+        background.load("resources/HomePageMenuPrincipal/GAME SELECTION 2.jpg");
         Thread.sleep(500);
 
     }
 
-    public void mouseInit(){
-        mouse = new Mouse(this);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        mouseX = mouseEvent.getX(); //Ver explicação nas properties
-        mouseY = mouseEvent.getY(); //Ver explicação nas properties
-        System.out.println("X: " + mouseX + "Y: " + mouseY); //APAGAR!! Informa o X e o Y quando existe um click no mouse
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-
-    }
 }
+
+//FALTA IMPLEMENTAR TRANSITION GAME SELECTION - DEPOIS DO HOME TITLE
+//FALTA IMPLEMENTAR GAME SELECTION 1 - DEPOIS DO TRANSITION GAME SELECTION E ANTES DO GAME SELECTION 2
