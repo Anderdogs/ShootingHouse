@@ -43,7 +43,6 @@ public class Controls implements MouseHandler {
         x=mouseEvent.getX();
         y=mouseEvent.getY();
         click=true;
-        //System.out.println("X: " + mouseEvent.getX() + " Y: " + mouseEvent.getY());
     }
 
     @Override

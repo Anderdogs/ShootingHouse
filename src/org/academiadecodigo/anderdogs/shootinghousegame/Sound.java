@@ -8,11 +8,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class Sound {
-    /*private Clip clip;
+    private Clip clip;
     private URL soundURL;
-
     public Sound(String var1) {
         this.initClip(var1);
     }
@@ -58,6 +56,4 @@ public class Sound {
             System.out.println(var4.getMessage());
         }
     }
-
-     */
 }

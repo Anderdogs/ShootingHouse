@@ -11,9 +11,8 @@ public class ReactionTrainer implements Games {
     private Picture shot;
     private Picture menuButton;
     private Picture[] lives;
-    private Picture [] caveiras;
-    private final int totalCaveiras = 5;
-    private AudioPlayer shotSound;
+    private Sound shotSound;
+    private Sound clipinSound;
     private String[] targets;
     private Controls mouse;
     private Text text;
@@ -30,7 +29,8 @@ public class ReactionTrainer implements Games {
         this.menuButton = new Picture(31,22,"resources/Icons/MenuButton.png");
         this.remainingLives = totalLives;
         this.reactionTimes = new long[5];
-        this.shotSound = new AudioPlayer();
+        this.shotSound = new Sound("/resources/Sound/awp1.wav");
+        this.clipinSound = new Sound("/resources/Sound/awp_clipin.wav");
         this.text = new Text(620,100,"PLEASE WAIT FOR TARGET");
         text.grow(150,50);
         text.setColor(Color.WHITE);
@@ -51,13 +51,13 @@ public class ReactionTrainer implements Games {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                    shotSound.awpClipin();
+                    clipinSound.play(true);
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                    shotSound.awpClipin();
+                    clipinSound.play(true);
                     Thread.sleep(50);
                     break;
                 }
@@ -116,7 +116,7 @@ public class ReactionTrainer implements Games {
                                 deleteLives();
                                 text.delete();
                                 menuButton.delete();
-                                shotSound.awpClipin();
+                                clipinSound.play(true);
                                 Thread.sleep(25);
                                 return;
                             }
@@ -147,21 +147,26 @@ public class ReactionTrainer implements Games {
 
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                        results.delete();
-                        shotSound.awpClipin();
+                        if(results != null){
+                            results.delete();
+                        }
+                        clipinSound.play(true);
                         Thread.sleep(50);
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                        shotSound.awpClipin();
+                        if(results != null){
+                            results.delete();
+                        }
+                        clipinSound.play(true);
                         Thread.sleep(50);
                         break;
                     }
                     Thread.sleep(0);
                 }
                 mouse.resetPos();
-                results.delete();
+                deleteLives();
                 }
             }
         }
@@ -170,7 +175,7 @@ public class ReactionTrainer implements Games {
     private void shootingEarly() throws InterruptedException {
 
         remainingLives--;
-        lives[remainingLives].delete();
+        lives[remainingLives].load("resources/Icons/caveira1Final.png");
         shot(mouse.mouseX(), mouse.mouseY());
         mouse.resetPos();
 
@@ -184,62 +189,6 @@ public class ReactionTrainer implements Games {
         shot.delete();
         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
     }
-
-    /*private boolean tooSoon() throws InterruptedException {
-
-
-
-        int waitTime = 20+(int)Math.round(Math.random()*30);
-
-        for(int i = 0; i<waitTime; i++){
-            Thread.sleep(100);
-
-            if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                deleteLives();
-                text.delete();
-                endGame=true;
-                Thread.sleep(50);
-                return true;
-            }
-
-            if(mouse.getClick()){
-                text.setText("TOO SOON");
-                text.draw();
-                return true;
-            }
-        }
-        mouse.resetPos();
-        return false;
-    }
-    */
-
-    private void resultsMenu(){
-        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain.jpg");
-        text.delete();
-        for(int i = 0; i<reactionTimes.length; i++){
-            media+=reactionTimes[i];
-        }
-        media=(media/5);
-        results = new Text(625, 340, media + " ms");
-        results.grow(100,30);
-        results.draw();
-        media=0;
-    }
-
-    private void gameOverMenu(){
-        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain gameover.jpg");
-    }
-
-    /*private void createTargets(){
-        targets = new String[5];
-        targets[0] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
-        targets[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
-        targets[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
-        targets[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
-        targets[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
-    }
-
-     */
 
     private boolean tooSoon() throws InterruptedException {
 
@@ -261,7 +210,6 @@ public class ReactionTrainer implements Games {
             if(mouse.getClick()){
                 text.setText("TOO SOON");
                 text.draw();
-                //createCaveiras();
                 return true;
             }
         }
@@ -269,25 +217,25 @@ public class ReactionTrainer implements Games {
         return false;
     }
 
-    /*private void createTargets() {
-        int random;
-        targets = new String[5];
-        String[] randomizerArr = new String[5];
-        randomizerArr[0] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
-        randomizerArr[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
-        randomizerArr[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
-        randomizerArr[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
-        randomizerArr[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
-        for (int i = 0; i < randomizerArr.length; i++) {
-            random = (int) Math.floor(Math.random() * 5);
-            for(int j = 0; j<targets.length; j++){
-                if (targets[j].equals(randomizerArr[random])) {
-                    continue;
-                }
-            }
+
+    private void resultsMenu(){
+        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain.jpg");
+        text.delete();
+        for(int i = 0; i<reactionTimes.length; i++){
+            media+=reactionTimes[i];
         }
+        media=(media/5);
+        results = new Text(625, 340, media + " ms");
+        results.grow(100,30);
+        results.draw();
+        media=0;
     }
-     */
+
+    private void gameOverMenu(){
+        reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain gameover.jpg");
+        deleteLives();
+    }
+
 
     private void createTargets() {
         int random = (int) Math.floor(Math.random() * 6);
@@ -344,61 +292,29 @@ public class ReactionTrainer implements Games {
         lives = new Picture[5];
 
         for(int i = 0; i<totalLives; i++){
-            lives[i] = new Picture (50+(30*i), 640, "resources/Icons/heart.png");
+            lives[i] = new Picture (30+(60*i), 640, "resources/Icons/hearthFinal.png");
         }
     }
 
-
-    /*private void createLives(){
-        lives = new Picture[5];
-
-        for(int i = 0; i<totalLives; i++){
-            lives[i] = new Picture (50+(70*i), 640, "resources/Icons/heartv2.png");
-        }
-    }
-
-     */
-
-    /*private void createCaveiras(){
-        caveiras = new Picture[5];
-
-        for(int i = 0; i<totalCaveiras; i++){
-            caveiras[i] = new Picture (50+(70*i), 640, "resources/Icons/CAVEIRA.png");
-            caveiras[i].draw();
-        }
-    }
-     */
 
     private void drawLives(){
-        for(int i = 0; i<remainingLives; i++){
+        for(int i = 0; i<lives.length; i++){
             lives[i].draw();
         }
     }
 
     private void deleteLives(){
-        for(int i = 0; i<remainingLives; i++ ){
+        for(int i = 0; i<lives.length; i++ ){
             lives[i].delete();
         }
     }
-
-
-    /*private void deleteLives(){
-        for(int i = 0; i<remainingLives; i++ ){
-            lives[i].delete();
-        }
-    }
-
-     */
 
     private void shot(double x, double y) throws InterruptedException {
         shot = new Picture(x-45, y-75,"resources/Icons/SHOT2_50%.png");
         shot.draw();
-        shotSound.awp();
+        shotSound.play(true);
         Thread.sleep(800);
-        shotSound.awpClipin();
+        clipinSound.play(true);
         mouse.setClick(false);
     }
 }
-
-//FALTA IMPLEMENTAR FINAL DE MÉDIA
-//FALTA IMPLEMENTAR FINAL GAMEOVER

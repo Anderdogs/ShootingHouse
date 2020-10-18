@@ -8,11 +8,11 @@ public class ShootingHouse {
     private Games game;
     private Picture background;
     private GamesOption gameChose;
-    private AudioPlayer sound;
+    private Sound sound;
 
     public ShootingHouse(){
         mouse = new Controls();
-        sound = new AudioPlayer();
+        sound = new Sound("/resources/Sound/awp_clipin.wav");
     }
 
     public void start() throws InterruptedException {
@@ -27,19 +27,19 @@ public class ShootingHouse {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 357 && mouse.mouseX() <= 571 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
-                    sound.awpClipin();
+                    sound.play(true);
                     gameChose = GamesOption.REACTION;
                     break;
                 }
 
                 if (mouse.mouseX() >= 737 && mouse.mouseX() <= 952 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
-                    sound.awpClipin();
+                    sound.play(true);
                     gameChose = GamesOption.AIM;
                     break;
                 }
 
                 if (mouse.mouseX() >= 1245 && mouse.mouseX() <= 1268 && mouse.mouseY() >= 60 && mouse.mouseY() <= 82) {
-                    sound.awpClipin();
+                    sound.play(true);
                     background.load("resources/Goodbye/HOME TITLE thanks.jpg");
                     return;
                 }
@@ -79,5 +79,3 @@ public class ShootingHouse {
     }
 }
 
-//FALTA IMPLEMENTAR TRANSITION GAME SELECTION - DEPOIS DO HOME TITLE
-//FALTA IMPLEMENTAR GAME SELECTION 1 - DEPOIS DO TRANSITION GAME SELECTION E ANTES DO GAME SELECTION 2

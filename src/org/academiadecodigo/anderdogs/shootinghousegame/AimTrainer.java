@@ -6,7 +6,8 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class AimTrainer implements Games {
 
-    private AudioPlayer shotSound;
+    private Sound shotSound;
+    private Sound clipinSound;
     private Controls mouse;
     private Picture aimBackground;
     private Picture menuButton;
@@ -23,7 +24,8 @@ public class AimTrainer implements Games {
         this.mouse=mouse;
         this.aimBackground = aimBackground;
         this.menuButton = new Picture(31,22,"resources/Icons/MenuButton.png");
-        this.shotSound=new AudioPlayer();
+        this.shotSound = new Sound("/resources/Sound/awp1.wav");
+        this.clipinSound = new Sound("/resources/Sound/awp_clipin.wav");
         this.totalEnemies=20;
         this.target = new Target[totalEnemies];
     }
@@ -43,13 +45,13 @@ public class AimTrainer implements Games {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                    shotSound.awpClipin();
+                    clipinSound.play(true);
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                    shotSound.awpClipin();
+                    clipinSound.play(true);
                     Thread.sleep(50);
                     break;
                 }
@@ -116,14 +118,14 @@ public class AimTrainer implements Games {
 
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         menuButton.delete();
-                        shotSound.awpClipin();
+                        clipinSound.play(true);
                         text1.delete();
                         text2.delete();
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                        shotSound.awpClipin();
+                        clipinSound.play(true);
                         break;
                     }
                     Thread.sleep(0);
@@ -158,7 +160,7 @@ public class AimTrainer implements Games {
                     target[i] = new Target(779, 275, "resources/AimTrainer/Game aim trainer5.png");
                     break;
                 case 5:
-                    target[i] = new Target(605, 10, "resources/AimTrainer/Game aim trainer6.png");
+                    target[i] = new Target(605, 50, "resources/AimTrainer/Game aim trainer6.png");
                     break;
                 case 6:
                     target[i] = new Target(964, 283, "resources/AimTrainer/Game aim trainer7.png");
@@ -206,11 +208,8 @@ public class AimTrainer implements Games {
     private void shot(double x, double y) throws InterruptedException {
         shot = new Picture(x-45, y-75, "resources/Icons/SHOT2_50%.png");
         shot.draw();
-        shotSound.awp();
-        Thread.sleep(50);
+        shotSound.play(true);
+        Thread.sleep(35);
         shot.delete();
     }
 }
-
-//FALTA IMPLEMENTAR GAME AIM TRAINER TRYAGAIN
-//FALTA IMPLEMENTAR GAME aim TRAINER GAMEOVER
