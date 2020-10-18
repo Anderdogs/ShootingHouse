@@ -11,6 +11,8 @@ public class ReactionTrainer implements Games {
     private Picture shot;
     private Picture menuButton;
     private Picture[] lives;
+    private Picture [] caveiras;
+    private final int totalCaveiras = 5;
     private AudioPlayer shotSound;
     private String[] targets;
     private Controls mouse;
@@ -49,13 +51,13 @@ public class ReactionTrainer implements Games {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
-                    //shotSound.awpClipin();
+                    shotSound.awpClipin();
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                    //shotSound.awpClipin();
+                    shotSound.awpClipin();
                     Thread.sleep(50);
                     break;
                 }
@@ -114,7 +116,7 @@ public class ReactionTrainer implements Games {
                                 deleteLives();
                                 text.delete();
                                 menuButton.delete();
-                                //shotSound.awpClipin();
+                                shotSound.awpClipin();
                                 Thread.sleep(25);
                                 return;
                             }
@@ -146,13 +148,13 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         results.delete();
-                        //shotSound.awpClipin();
+                        shotSound.awpClipin();
                         Thread.sleep(50);
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
-                        //shotSound.awpClipin();
+                        shotSound.awpClipin();
                         Thread.sleep(50);
                         break;
                     }
@@ -183,7 +185,9 @@ public class ReactionTrainer implements Games {
         reactionBackground.load("resources/HomePageMenuPrincipal/TRANSITION GAME SELECTION.jpg");
     }
 
-    private boolean tooSoon() throws InterruptedException {
+    /*private boolean tooSoon() throws InterruptedException {
+
+
 
         int waitTime = 20+(int)Math.round(Math.random()*30);
 
@@ -207,6 +211,7 @@ public class ReactionTrainer implements Games {
         mouse.resetPos();
         return false;
     }
+    */
 
     private void resultsMenu(){
         reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain.jpg");
@@ -235,6 +240,34 @@ public class ReactionTrainer implements Games {
     }
 
      */
+
+    private boolean tooSoon() throws InterruptedException {
+
+
+
+        int waitTime = 20+(int)Math.round(Math.random()*30);
+
+        for(int i = 0; i<waitTime; i++){
+            Thread.sleep(100);
+
+            if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                deleteLives();
+                text.delete();
+                endGame=true;
+                Thread.sleep(50);
+                return true;
+            }
+
+            if(mouse.getClick()){
+                text.setText("TOO SOON");
+                text.draw();
+                //createCaveiras();
+                return true;
+            }
+        }
+        mouse.resetPos();
+        return false;
+    }
 
     /*private void createTargets() {
         int random;
@@ -315,6 +348,27 @@ public class ReactionTrainer implements Games {
         }
     }
 
+
+    /*private void createLives(){
+        lives = new Picture[5];
+
+        for(int i = 0; i<totalLives; i++){
+            lives[i] = new Picture (50+(70*i), 640, "resources/Icons/heartv2.png");
+        }
+    }
+
+     */
+
+    /*private void createCaveiras(){
+        caveiras = new Picture[5];
+
+        for(int i = 0; i<totalCaveiras; i++){
+            caveiras[i] = new Picture (50+(70*i), 640, "resources/Icons/CAVEIRA.png");
+            caveiras[i].draw();
+        }
+    }
+     */
+
     private void drawLives(){
         for(int i = 0; i<remainingLives; i++){
             lives[i].draw();
@@ -327,12 +381,21 @@ public class ReactionTrainer implements Games {
         }
     }
 
+
+    /*private void deleteLives(){
+        for(int i = 0; i<remainingLives; i++ ){
+            lives[i].delete();
+        }
+    }
+
+     */
+
     private void shot(double x, double y) throws InterruptedException {
         shot = new Picture(x-45, y-75,"resources/Icons/SHOT2_50%.png");
         shot.draw();
-        //shotSound.awp();
+        shotSound.awp();
         Thread.sleep(800);
-        //shotSound.awpClipin();
+        shotSound.awpClipin();
         mouse.setClick(false);
     }
 }

@@ -10,7 +10,7 @@ public class AudioPlayer {
         private AudioInputStream audioInputStream;
         private Clip clip;
 
-        public void toto() {
+        /*public void toto() {
                 try {
                         audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/africa-toto.wav").getAbsoluteFile());
                         clip = AudioSystem.getClip();
@@ -23,9 +23,11 @@ public class AudioPlayer {
                 }
         }
 
+         */
+
         public void suspanse() {
                 try {
-                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/teste.wav").getAbsoluteFile());
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("/home/brunovilar/workspace/Shooting_House/resources/Sound/teste.wav"));
                         clip = AudioSystem.getClip();
                         clip.open(audioInputStream);
                         clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -36,7 +38,7 @@ public class AudioPlayer {
                 }
         }
 
-        public void pewpew() {
+        /*public void pewpew() {
                 try {
                         audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/PewPew.wav").getAbsoluteFile());
                         clip = AudioSystem.getClip();
@@ -49,10 +51,12 @@ public class AudioPlayer {
                 }
         }
 
+         */
+
         public void awp() {
                 try {
 
-                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/awp1.wav").getAbsoluteFile());
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("/home/brunovilar/workspace/Shooting_House/resources/Sound/awp1.wav"));
                         clip = AudioSystem.getClip();
                         clip.open(audioInputStream);
                         clip.start();
@@ -65,7 +69,7 @@ public class AudioPlayer {
         public void awpClipin() {
                 try {
 
-                        audioInputStream = AudioSystem.getAudioInputStream(new File("resources/Sound/awp_clipin.wav").getAbsoluteFile());
+                        audioInputStream = AudioSystem.getAudioInputStream(new File("/home/brunovilar/workspace/Shooting_House/resources/Sound/awp_clipin.wav"));
                         clip = AudioSystem.getClip();
                         clip.open(audioInputStream);
                         clip.start();
@@ -79,7 +83,7 @@ public class AudioPlayer {
         public void stop(){
                 clip.stop();
         }
-        
+
 
 }
 
