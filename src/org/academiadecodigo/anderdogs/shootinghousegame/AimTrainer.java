@@ -43,11 +43,13 @@ public class AimTrainer implements Games {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                    //shotSound.awpClipin();
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
+                    //shotSound.awpClipin();
                     Thread.sleep(50);
                     break;
                 }
@@ -99,7 +101,7 @@ public class AimTrainer implements Games {
                         mouse.setClick(false);
                         Thread.sleep(0);
                     }
-                    Thread.sleep(0);
+                    Thread.sleep(10);
                 }
                 text3.delete();
                 mouse.setClick(false);
@@ -114,12 +116,14 @@ public class AimTrainer implements Games {
 
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         menuButton.delete();
+                        //shotSound.awpClipin();
                         text1.delete();
                         text2.delete();
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
+                        //shotSound.awpClipin();
                         break;
                     }
                     Thread.sleep(0);
@@ -202,7 +206,7 @@ public class AimTrainer implements Games {
     private void shot(double x, double y) throws InterruptedException {
         shot = new Picture(x-45, y-75, "resources/Icons/SHOT2_50%.png");
         shot.draw();
-        shotSound.awp();
+        //shotSound.awp();
         Thread.sleep(50);
         shot.delete();
     }

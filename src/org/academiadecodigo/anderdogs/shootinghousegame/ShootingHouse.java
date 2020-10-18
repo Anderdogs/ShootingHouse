@@ -8,9 +8,11 @@ public class ShootingHouse {
     private Games game;
     private Picture background;
     private GamesOption gameChose;
+    private AudioPlayer sound;
 
     public ShootingHouse(){
         mouse = new Controls();
+        sound = new AudioPlayer();
     }
 
     public void start() throws InterruptedException {
@@ -25,16 +27,19 @@ public class ShootingHouse {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 357 && mouse.mouseX() <= 571 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
+                    //sound.awpClipin();
                     gameChose = GamesOption.REACTION;
                     break;
                 }
 
                 if (mouse.mouseX() >= 737 && mouse.mouseX() <= 952 && mouse.mouseY() >= 279 && mouse.mouseY() <= 325) {
+                    //sound.awpClipin();
                     gameChose = GamesOption.AIM;
                     break;
                 }
 
                 if (mouse.mouseX() >= 1245 && mouse.mouseX() <= 1268 && mouse.mouseY() >= 60 && mouse.mouseY() <= 82) {
+                    //sound.awpClipin();
                     background.load("resources/Goodbye/HOME TITLE thanks.jpg");
                     return;
                 }

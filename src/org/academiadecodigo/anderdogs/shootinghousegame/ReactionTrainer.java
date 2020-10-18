@@ -49,11 +49,13 @@ public class ReactionTrainer implements Games {
 
                 Thread.sleep(0);
                 if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
+                    //shotSound.awpClipin();
                     Thread.sleep(50);
                     return;
                 }
 
                 if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
+                    //shotSound.awpClipin();
                     Thread.sleep(50);
                     break;
                 }
@@ -112,6 +114,7 @@ public class ReactionTrainer implements Games {
                                 deleteLives();
                                 text.delete();
                                 menuButton.delete();
+                                //shotSound.awpClipin();
                                 Thread.sleep(25);
                                 return;
                             }
@@ -143,11 +146,13 @@ public class ReactionTrainer implements Games {
                     Thread.sleep(0);
                     if (mouse.mouseX() >= 38 && mouse.mouseX() <= 63 && mouse.mouseY() >= 53 && mouse.mouseY() <= 76) {
                         results.delete();
+                        //shotSound.awpClipin();
                         Thread.sleep(50);
                         return;
                     }
 
                     if (mouse.mouseX() >= 530 && mouse.mouseX() <= 747 && mouse.mouseY() >= 671 && mouse.mouseY() <= 721) {
+                        //shotSound.awpClipin();
                         Thread.sleep(50);
                         break;
                     }
@@ -220,13 +225,86 @@ public class ReactionTrainer implements Games {
         reactionBackground.load("resources/ReactionTrainer/Game reaction trainer tryagain gameover.jpg");
     }
 
-    private void createTargets(){
+    /*private void createTargets(){
         targets = new String[5];
         targets[0] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
         targets[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
         targets[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
         targets[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
         targets[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+    }
+
+     */
+
+    /*private void createTargets() {
+        int random;
+        targets = new String[5];
+        String[] randomizerArr = new String[5];
+        randomizerArr[0] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+        randomizerArr[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+        randomizerArr[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+        randomizerArr[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+        randomizerArr[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+        for (int i = 0; i < randomizerArr.length; i++) {
+            random = (int) Math.floor(Math.random() * 5);
+            for(int j = 0; j<targets.length; j++){
+                if (targets[j].equals(randomizerArr[random])) {
+                    continue;
+                }
+            }
+        }
+    }
+     */
+
+    private void createTargets() {
+        int random = (int) Math.floor(Math.random() * 6);
+        targets = new String[5];
+        switch (random){
+            case 0:
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+            case 1:
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+            case 2:
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+            case 3:
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+            case 4:
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+            case 5:
+                targets[4] = "resources/ReactionTrainer/Game reaction trainer 2.jpg";
+                targets[3] = "resources/ReactionTrainer/Game reaction trainer 3.jpg";
+                targets[2] = "resources/ReactionTrainer/Game reaction trainer 4.jpg";
+                targets[1] = "resources/ReactionTrainer/Game reaction trainer 5.jpg";
+                targets[0] = "resources/ReactionTrainer/Game reaction trainer 6.jpg";
+                break;
+
+        }
+
     }
 
     private void createLives(){
@@ -252,9 +330,9 @@ public class ReactionTrainer implements Games {
     private void shot(double x, double y) throws InterruptedException {
         shot = new Picture(x-45, y-75,"resources/Icons/SHOT2_50%.png");
         shot.draw();
-        shotSound.awp();
+        //shotSound.awp();
         Thread.sleep(800);
-        shotSound.awpClipin();
+        //shotSound.awpClipin();
         mouse.setClick(false);
     }
 }
